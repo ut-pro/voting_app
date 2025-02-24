@@ -1,5 +1,7 @@
+// Import mongoose library for MongoDB interaction
 import mongoose from "mongoose";
 
+// Define the candidate schema with various fields and their validation rules
 const candidateSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -34,6 +36,8 @@ const candidateSchema = new mongoose.Schema({
   },
 });
 
-const Candidate = mongoose.model("User", candidateSchema);
+// Create a Candidate model using the candidate schema
+const Candidate = mongoose.model("Candidate", candidateSchema);
 
+// Export the Candidate model as the default export
 export default Candidate;

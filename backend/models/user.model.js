@@ -1,5 +1,7 @@
+// Import mongoose library for MongoDB interaction
 import mongoose from "mongoose";
 
+// Define the user schema with various fields and their validation rules
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -41,6 +43,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// Create a User model using the user schema
 const User = mongoose.model("User", userSchema);
 
+// Export the User model as the default export
 export default User;
