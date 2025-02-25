@@ -13,7 +13,6 @@ const awth = async (req, res, next) => {
 
     // Attach the user ID from the token payload to the request object
     req.user = decode.id;
-    console.log(req.user);
     next();
   } catch (error) {
     // Handle errors and send a response

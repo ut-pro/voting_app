@@ -40,9 +40,8 @@ router.patch("/delete/:id", awth, checkRole("admin"), deleteCandidate);
 
 // Define a GET route for showing all candidates
 // When a GET request is made to the root path, the awth middleware is called first to authenticate the user
-// If authentication is successful, the checkRole middleware is called to check if the user has the "voter" role
-// If the user has the "voter" role, the showCandidates controller function is called
-router.get("/", awth, checkRole("voter"), showCandidates);
+// If authentication is successful, the showCandidates controller function is called
+router.get("/", awth, showCandidates);
 
 // Define a PATCH route for voting a candidate
 // When a PATCH request is made to /vote/:id, the awth middleware is called first to authenticate the user

@@ -88,7 +88,6 @@ export const voteCandidate = async (req, res) => {
 
     // Check if the user has already voted
     if (user.isVoted) return res.status(400).send("user can vote only once");
-    console.log(user);
 
     // Add the user's vote to the candidate
     candidate.votes.push({ user: user._id });
