@@ -1,9 +1,13 @@
 // Import dotenv to load environment variables from a .env file
 import dotenv from "dotenv";
+// Load environment variables from the .env file into process.env
 dotenv.config();
 
 // Import express framework for building web applications
 import express from "express";
+
+//Import cors to allow cross-origin requests
+import cors from "cors";
 
 // Import the function to connect to the MongoDB database
 import connectDB from "./db/db.js";
@@ -11,14 +15,23 @@ import connectDB from "./db/db.js";
 // Import the user router for handling user-related routes
 import userRouter from "./routes/user.route.js";
 
+// Import the candidate router for handling candidate-related routes
+import candidateRouter from "./routes/candidate.route.js";
+
 // Create an instance of an Express application
 const app = express();
 
 // Middleware to parse JSON bodies in incoming requests
 app.use(express.json());
 
+// Middleware to allow cross-origin requests
+app.use(cors());
+
 // Use the user router for routes starting with /user
 app.use("/user", userRouter);
+
+// Use the candidate router for routes starting with /candidate
+app.use("/candidate", candidateRouter);
 
 // Connect to the database and start the server
 connectDB()

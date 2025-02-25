@@ -12,6 +12,12 @@ const candidateSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
   party: {
     type: String,
     trim: true,
