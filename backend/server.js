@@ -27,6 +27,11 @@ app.use(express.json());
 // Middleware to allow cross-origin requests
 app.use(cors());
 
+// Define a route handler for the root URL that sends a welcome message
+app.get("/", (req, res) => {
+  res.send("Welcome to the vote app");
+});
+
 // Use the user router for routes starting with /user
 app.use("/user", userRouter);
 
