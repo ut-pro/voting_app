@@ -36,7 +36,7 @@ router.patch("/update/:id", awth, checkRole("admin"), updateCandidate);
 // When a PATCH request is made to /delete/:id, the awth middleware is called first to authenticate the user
 // If authentication is successful, the checkRole middleware is called to check if the user has the "admin" role
 // If the user has the "admin" role, the deleteCandidate controller function is called
-router.patch("/delete/:id", awth, checkRole("admin"), deleteCandidate);
+router.delete("/delete/:id", awth, checkRole("admin"), deleteCandidate);
 
 // Define a GET route for showing all candidates
 // When a GET request is made to the root path, the awth middleware is called first to authenticate the user
