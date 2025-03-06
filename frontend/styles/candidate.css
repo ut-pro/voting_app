@@ -1,0 +1,43 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #007bff;
+  color: white;
+  padding: 1rem;
+}
+nav a,
+nav button {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+}
+nav button:hover {
+  text-decoration: underline;
+}
+.candidate {
+  background: white;
+  padding: 15px;
+  margin: 10px auto;
+  width: 300px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.vote-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+.vote-btn:disabled {
+  background: gray;
+}

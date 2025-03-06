@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vote App</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="nav-left">Vote App</div>
+        <div class="nav-right" id="navRight">
+          <a href="login.html" id="loginLink">Login</a>
+          <a href="signup.html" id="signupLink">Signup</a>
+          <a href="profile.html" id="username" style="display: none"></a>
+          <button id="logout" style="display: none">Logout</button>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <h1>Welcome to the Vote App</h1>
+      <p>Cast your vote and make a difference!</p>
+      <div class="parent-box">
+        <div class="candidate-box" id="candidateResults"></div>
+      </div>
+      <div id="candidates-card"></div>
+    </main>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
