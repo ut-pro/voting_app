@@ -1,5 +1,6 @@
 import Candidate from "../models/candidate.model.js";
 import User from "../models/user.model.js";
+import io from "../server.js";
 
 // Controller function for creating a new candidate
 export const createCandidate = async (req, res) => {
@@ -98,6 +99,17 @@ export const voteCandidate = async (req, res) => {
     await candidate.save();
     await user.save();
 
+    const updatedCandidates = await Candidate.find().sort({ voteCount: -1 });
+
+    const votes = updatedCandidates.map((data) => {
+      return {
+        candidateID: data._id,
+        party: data.party,
+        count: data.voteCount,
+      };
+    });
+    io.emit("voteUpdate", votes);
+
     res.status(200).send("your vote is submitted");
   } catch (error) {
     // Handle errors and send a response
@@ -111,6 +123,7 @@ export const voteCount = async (req, res) => {
   try {
     // Find all candidates and sort them by vote count in descending order
     const candidate = await Candidate.find().sort({ voteCount: -1 });
+
     const votes = candidate.map((data) => {
       return {
         candidateID: data._id,

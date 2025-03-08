@@ -5,6 +5,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     window.location.href = "login.html";
     return;
   }
+  const usernameDisplay = document.getElementById("username");
+  const userResponse = await fetch("http://localhost:2002/user/profile", {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const user = await userResponse.json();
+  if (userResponse.ok) {
+    usernameDisplay.textContent = `Welcome, ${user.name}`;
+  }
 
   const response = await fetch("http://localhost:2002/candidate", {
     method: "GET",
@@ -20,33 +29,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     const div = document.createElement("div");
     div.className = "candidate";
     div.innerHTML = `
-            <h3>${candidate.name} (${candidate.party})</h3>
+            <h3>Name: ${candidate.name} (${candidate.party})</h3>
+            <h3>Age: ${candidate.age}yr</h3>
             <p>Votes: ${candidate.voteCount}</p>
-            <button class="vote-btn" data-id="${candidate._id}">Vote</button>
         `;
     candidateList.appendChild(div);
   });
 
-  document.querySelectorAll(".vote-btn").forEach((button) => {
-    button.addEventListener("click", async function () {
-      const candidateID = this.getAttribute("data-id");
+  let logoutButton = document.querySelector("#logout");
 
-      const voteResponse = await fetch(
-        `http://localhost:2002/candidate/vote/${candidateID}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (voteResponse.ok) {
-        alert("Vote submitted successfully!");
-        window.location.reload();
-      } else {
-        alert("Failed to submit vote");
-      }
-    });
+  logoutButton.addEventListener("click", function () {
+    localStorage.removeItem("token");
+    alert("Logged out successfully!");
+    window.location.href = "index.html";
   });
 });

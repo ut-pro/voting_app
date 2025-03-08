@@ -1,16 +1,22 @@
 document.addEventListener("DOMContentLoaded", async function () {
   try {
+    let socket = io("http://localhost:2002");
+
     async function fetchVotes() {
       const candidateResponse = await fetch(
         "http://localhost:2002/candidate/vote/count"
       );
       const candidates = await candidateResponse.json();
+
+      updateUI(candidates);
+    }
+
+    function updateUI(candidates) {
       const container = document.getElementById("candidateResults");
       container.innerHTML = "";
-      document.querySelector("#candidates-card").innerHTML = "";
 
       candidates.forEach((candidate) => {
-        const votePercentage = Math.min(candidate.count, 10); // Ensure max 10%
+        const votePercentage = Math.min(candidate.count, 10);
         const div = document.createElement("div");
         div.className = "candidate";
         div.innerHTML = `
@@ -25,7 +31,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         container.appendChild(div);
       });
 
-      // Attach vote button event listeners **AFTER** rendering candidates
+      attachVoteListeners();
+    }
+
+    function attachVoteListeners() {
       document.querySelectorAll(".vote-btn").forEach((button) => {
         button.addEventListener("click", async function () {
           const candidateID = this.getAttribute("data-id");
@@ -49,7 +58,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
           if (voteResponse.ok) {
             alert("Vote submitted successfully!");
-            fetchVotes(); // Refresh the candidates instead of reloading the whole page
           } else {
             alert("Failed to submit vote");
           }
@@ -57,15 +65,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     }
 
-    async function fetchCandidates() {
-      const candidateResponse = await fetch("http://localhost:2002/candidate/");
-      const candidates = await candidateResponse.json();
-      console.log(candidates);
-    }
-    fetchCandidates();
-
     await fetchVotes();
-    setInterval(fetchVotes, 10000);
+
+    socket.on("voteUpdate", (candidates) => {
+      console.log("Live Vote Update:", candidates);
+      updateUI(candidates);
+    });
 
     const token = localStorage.getItem("token");
     const loginLink = document.getElementById("loginLink");

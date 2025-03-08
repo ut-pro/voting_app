@@ -21,11 +21,26 @@
     <main>
       <h1>Welcome to the Vote App</h1>
       <p>Cast your vote and make a difference!</p>
+      <div id="candidate-btn">
+        <a href="candidate.html" id="candidateLink">Candidates</a>
+      </div>
       <div class="parent-box">
         <div class="candidate-box" id="candidateResults"></div>
       </div>
-      <div id="candidates-card"></div>
     </main>
-    <script src="scripts/main.js"></script>
   </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- <script>
+    let socket = io("http://localhost:2002", {
+      transports: ["websocket"],
+    });
+    // socket.on("connect_error", (err) => {
+    //   console.log(`connect_error due to ${err.message}`);
+    // });
+    socket.on("voteUpdate", (candidates) => {
+      console.log("Live Vote Update:", candidates);
+      updateUI(candidates);
+    });
+  </script> -->
+  <script src="scripts/main.js"></script>
 </html>

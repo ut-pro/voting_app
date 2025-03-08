@@ -45,14 +45,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         address: document.getElementById("address").value,
       };
 
-      const updateResponse = await fetch("http://localhost:2002/user/update", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedProfile),
-      });
+      const updateResponse = await fetch(
+        "http://localhost:2002/user/update/update_password",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedProfile),
+        }
+      );
 
       if (updateResponse.ok) {
         alert("Profile updated successfully!");
@@ -82,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       };
 
       const passwordResponse = await fetch(
-        "http://localhost:2002/user/change-password",
+        "http://localhost:2002/user/update/update_password",
         {
           method: "PATCH",
           headers: {
@@ -95,7 +98,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       if (passwordResponse.ok) {
         alert("Password changed successfully!");
-        window.location.reload();
+        localStorage.removeItem("token");
+        window.location.href = "index.html";
       } else {
         alert("Failed to change password");
       }

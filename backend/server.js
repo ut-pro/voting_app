@@ -9,6 +9,12 @@ import express from "express";
 //Import cors to allow cross-origin requests
 import cors from "cors";
 
+// Import http module to create an HTTP server
+import { createServer } from "http";
+
+// Import socket.io module to enable real-time, bidirectional and event-based communication
+import { Server } from "socket.io";
+
 // Import the function to connect to the MongoDB database
 import connectDB from "./db/db.js";
 
@@ -21,6 +27,17 @@ import candidateRouter from "./routes/candidate.route.js";
 // Create an instance of an Express application
 const app = express();
 
+// Create an HTTP server using the Express application
+const httpServer = createServer(app);
+
+// Create an instance of the socket.io server
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
+
+app.use(express.static("../frontend"));
 // Middleware to parse JSON bodies in incoming requests
 app.use(express.json());
 
@@ -38,11 +55,25 @@ app.use("/user", userRouter);
 // Use the candidate router for routes starting with /candidate
 app.use("/candidate", candidateRouter);
 
+// Listen for websocket connections
+io.on("connection", (socket) => {
+  console.log("user connected");
+
+  socket.on("voteUpdate", (candidates) => {
+    console.log("Live Vote Update:", candidates);
+    io.emit("voteUpdate", candidates);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
 // Connect to the database and start the server
 connectDB()
   .then(() => {
     // Start the server and listen on the specified port
-    app.listen(process.env.PORT, () => {
+    httpServer.listen(process.env.PORT, () => {
       console.log(`server is listening at port: ${process.env.PORT}`);
     });
   })
@@ -50,3 +81,6 @@ connectDB()
     // Handle errors in database connection
     console.error("database connection failed", err);
   });
+
+// Export the io object to be used in other files
+export default io;
